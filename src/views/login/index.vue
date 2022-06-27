@@ -1,9 +1,10 @@
 <template>
   <div class="login-container">
+    <!--el-from组件:elementui插件里面的组件,经常展示表单元素 model:用于收集表单数据,rules:表单验证规则-->
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
 
       <div class="title-container">
-        <h3 class="title">Login Form</h3>
+        <h3 class="title">登录</h3>
       </div>
 
       <el-form-item prop="username">
