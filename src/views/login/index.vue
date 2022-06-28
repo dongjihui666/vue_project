@@ -42,7 +42,7 @@
         </span>
       </el-form-item>
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
+      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
 
       <div class="tips">
         <span style="margin-right:20px;">username: admin</span>
@@ -58,6 +58,7 @@ import { validUsername } from '@/utils/validate'
 
 export default {
   name: 'Login',
+  // 在这里进行表单验证,验证用户名与密码操作
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
@@ -106,12 +107,19 @@ export default {
         this.$refs.password.focus()
       })
     },
+    //登录业务:发送请求,带着用户名与密码给服务器(成功与失败)
     handleLogin() {
+      //这里是在验证表单元素(用户名与密码)的是否符合规则
       this.$refs.loginForm.validate(valid => {
+        //如果符合验证规则
         if (valid) {
+          //按钮会有一个loading效果
           this.loading = true
+          //派发一个action:user/login 带着用户名与密码的载荷
           this.$store.dispatch('user/login', this.loginForm).then(() => {
+            //登录成功进行路由的跳转
             this.$router.push({ path: this.redirect || '/' })
+            //loading效果结束
             this.loading = false
           }).catch(() => {
             this.loading = false
@@ -181,8 +189,9 @@ $light_gray:#eee;
 .login-container {
   min-height: 100%;
   width: 100%;
-  background-color: $bg;
   overflow: hidden;
+  background: url(~@/assets/1.png);
+  background-size: 100% 100%;
 
   .login-form {
     position: relative;
