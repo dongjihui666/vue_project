@@ -3,4 +3,4 @@
 import request from '@/utils/request';
 //获取品牌列表接口
 //admin/product/baseTrdemark/{page}/{limit}
-export const reqTredMarkList=(page,liit)=>request({url:`/admin/product/baseTrdemark/${page}/${limit}`,method:'get'});
+export const reqTredMarkList=(page,limit)=>request({url:`/admin/product/baseTrademark/${page}/${limit}`,method:'get'});

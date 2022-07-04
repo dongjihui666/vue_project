@@ -12,6 +12,7 @@
    width:对应列的宽度
    align:对齐方式
    注意1:elementui当中的table组件,展示的数据是1列1列进行展示数据
+   prop:对应列内容的字段名,也可以使用property
    -->
 
     <el-table :data="list" style="width: 100%" border>
@@ -19,11 +20,18 @@
       <el-table-column type="index" width="55"> </el-table-column>
       <el-table-column label="序号" prop="label" width="80px" align="center">
       </el-table-column>
-      <el-table-column label="品牌名称" prop="label" width="width">
+      <el-table-column label="品牌名称" prop="tmName" width="width">
       </el-table-column>
-      <el-table-column label="品牌logo" prop="label" width="width">
+      <el-table-column label="品牌logo" prop="logourl" width="width">
+        <template slot-scope="{ row, $index }">
+          <img :src="row.logoUrl" alt="" style="whdth;100px;he" />
+        </template>
       </el-table-column>
       <el-table-column label="操作" prop="label" width="width">
+      <template slot-scope="{row,$index}">
+         <el-button type="warning" icon="el-icon-edit" size="mini">修改</el-button>
+         <el-button type="danger" icon="el-icon-delete" size="mini">删除</el-button>
+      </template>
       </el-table-column>
     </el-table>
     <!--
@@ -41,7 +49,7 @@
       page-count:按钮的数量 如果 9 连续页码是7
       -->
     <el-pagination
-    style="margin-top: 20px;text-align: center;"
+      style="margin-top: 20px; text-align: center"
       :current-page="6"
       :total="99"
       :page-size="3"
@@ -58,40 +66,37 @@ export default {
   name: "tradeMark",
 
   data() {
-   return{
+    return {
       //代表分页第几页
-      page:1,
+      page: 1,
       //当前页数展示数据条数
-      limit:3,
+      limit: 3,
       //总共数据条数
-      total:0,
+      total: 0,
       //列表展示的数据
-      list:[
-
-      ]
-   }
+      list: [],
+    };
   },
   //组件挂载完毕发送请求
   mounted() {
-  //获取列表数据方法 
-  this.getPageList();
+    //获取列表数据方法
+    this.getPageList();
   },
   methods: {
-   //获取品牌列表的数据
-  async getPageList(){
+    //获取品牌列表的数据
+    async getPageList() {
       //解构出参数
-      const {page,limit} = this;
+      const { page, limit } = this;
       //获取品牌列表的接口
       //当你向服务器发送请求的时候,这个函数需要带参数,data当中初始化两个字段,代表给服务器传递参数
-    let result = await  this.$API.tradeMark.reqTredMarkList(page,limit);
-    if(result.code=200){
-      //分别是展示数据的总条数和总数据
-      this.total=result.data.total;
-      this.list = result.data.records;
-    }
-
-   }
-  }
+      let result = await this.$API.tradeMark.reqTredMarkList(page, limit);
+      if ((result.code = 200)) {
+        //分别是展示数据的总条数和总数据
+        this.total = result.data.total;
+        this.list = result.data.records;
+      }
+    },
+  },
 };
 </script>
 
